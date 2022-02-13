@@ -16,9 +16,9 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self,documento,password):
+    def create_superuser(self,documento,nombres,password):
         
-        user=self.create_user(documento,password)
+        user=self.create_user(documento,nombres,password)
         user.is_superuser=True
         user.is_staff=True
         user.save(using=self._db)
@@ -38,7 +38,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
     
     USERNAME_FIELD = 'documento'
-    REQUIRED_FIELD = ['nombres']
+    REQUIRED_FIELDS = ['nombres']
     
     def get_full_name(self):
        return self.nombres 

@@ -123,4 +123,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL ='perfil_app_api.user'
+AUTH_USER_MODEL ='perfil_app_api.User'
