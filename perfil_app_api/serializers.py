@@ -2,8 +2,6 @@ from rest_framework import serializers
 
 from perfil_app_api import models
 
-# class HelloSerializer(serializers.Serializer):
-#     nombres = serializers.CharField(max_length=10)
 
 class UsuarioSerializer   (serializers.ModelSerializer):
     class Meta:
@@ -33,4 +31,3 @@ class UsuarioSerializer   (serializers.ModelSerializer):
             instance.set_password(password)
 
         return super().update(instance,validated_data)
-        

@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
 from perfil_app_api import serializers,models
+from rest_framework.permissions import IsAuthenticated
 
 from perfil_app_api import serializers
 
@@ -40,42 +41,9 @@ class PersonaApiView(APIView):
         return Response({'method':'DELETE'})
 
 
-# class HelloViewSet(viewsets.ViewSet):
-#     serializer_class = serializers.HelloSerializer
-    
-#     def list(self,request):
-#         a_viewset = [
-#             'usa acciones, mapea',
-#         ]
-#         return Response({'message':'Hola!','a_viewset': a_viewset})
-
-#     def create(self,request):
-#         serializer=self.serializer_class(data=request.data)
-#         if serializer.is_valid():
-#             nombres =serializer.validated_data.get('nombres')
-#             message = f"Hola {nombres}"
-#             return Response({'message':message})
-#         else:
-#             return Response(
-#                 serializer.errors,
-#                 status=status.HTTP_400_BAD_REQUEST
-#             )
-    
-#     def retrieve(self,request,pk=None):
-#         return Response({'http_method':'GET'})
-    
-#     def update(self,request,pk=None):
-#         return Response({'http_method':'PUT'})
-
-#     def partial_update(self,request,pk=None):
-#         return Response({'http_method':'PATCH'})
-
-#     def destroy(self,request,pk=None):
-#         return Response({'http_method':'DELETE'})
-
     
 class UserProfileViewSet(viewsets.ModelViewSet):
     '''Crea y actualiza Usuarios'''
     serializer_class = serializers.UsuarioSerializer
-    queryset = models.User.objects.all()
+    queryset = models.User.objects.all().order_by('id')
     
