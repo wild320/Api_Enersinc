@@ -6,15 +6,16 @@ from django.contrib.auth.models import BaseUserManager
 
 
 class UserManager(BaseUserManager):
-    def create_user(self,documento,nombres,password=None):
+    def create_user(self,tipo_documento,documento,nombres,apellidos,hobbie,password=None):
         if not documento:
             raise ValueError("Debes tener un Numero de documento")
         
         
-        user=self.model(documento=documento,nombres=nombres)
+        user=self.model(tipo_documento=tipo_documento,documento=documento,nombres=nombres,apellidos=apellidos,hobbie=hobbie)
         user.set_password(password)
         user.save(using=self._db)
         return user
+        
 
     def create_superuser(self,documento,nombres,password):
         

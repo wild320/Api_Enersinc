@@ -2,13 +2,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
+from perfil_app_api import serializers,models
 
 from perfil_app_api import serializers
 
 
 class PersonaApiView(APIView):
 
-    serializer_class = serializers.HelloSerializer
+    serializer_class = serializers.UsuarioSerializer
     
     def get(self, request,format=None):
         an_apiview = [
@@ -20,8 +21,8 @@ class PersonaApiView(APIView):
         serializer=self.serializer_class(data=request.data)
 
         if serializer.is_valid():
-            nombres = serializer.validated_data.get('nombres')
-            message = f'Hello {nombres}'
+            name = serializer.validated_data.get('nombres')
+            message = f'Hello {name}'
             return Response({'message': message})
         else:
             return Response(
@@ -39,39 +40,42 @@ class PersonaApiView(APIView):
         return Response({'method':'DELETE'})
 
 
-class HelloViewSet(viewsets.ViewSet):
-    serializer_class = serializers.HelloSerializer
+# class HelloViewSet(viewsets.ViewSet):
+#     serializer_class = serializers.HelloSerializer
     
-    def list(self,request):
-        a_viewset = [
-            'usa acciones, mapea',
-        ]
-        return Response({'message':'Hola!','a_viewset': a_viewset})
+#     def list(self,request):
+#         a_viewset = [
+#             'usa acciones, mapea',
+#         ]
+#         return Response({'message':'Hola!','a_viewset': a_viewset})
 
-    def create(self,request):
-        serializer=self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            nombres =serializer.validated_data.get('nombres')
-            message = f'Hola {nombres}'
-            return Response({'message':message})
-        else:
-            return Response(
-                serializer.errors,
-                status=status.HTTP_400_BAD_REQUEST
-            )
+#     def create(self,request):
+#         serializer=self.serializer_class(data=request.data)
+#         if serializer.is_valid():
+#             nombres =serializer.validated_data.get('nombres')
+#             message = f"Hola {nombres}"
+#             return Response({'message':message})
+#         else:
+#             return Response(
+#                 serializer.errors,
+#                 status=status.HTTP_400_BAD_REQUEST
+#             )
     
-    def retrieve(self,request,pk=None):
-        return Response({'http_method':'GET'})
+#     def retrieve(self,request,pk=None):
+#         return Response({'http_method':'GET'})
     
-    def update(self,request,pk=None):
-        return Response({'http_method':'PUT'})
+#     def update(self,request,pk=None):
+#         return Response({'http_method':'PUT'})
 
-    def partial_update(self,request,pk=None):
-        return Response({'http_method':'PATCH'})
+#     def partial_update(self,request,pk=None):
+#         return Response({'http_method':'PATCH'})
 
-    def destroy(self,request,pk=None):
-        return Response({'http_method':'DELETE'})
+#     def destroy(self,request,pk=None):
+#         return Response({'http_method':'DELETE'})
 
     
-
-      
+class UserProfileViewSet(viewsets.ModelViewSet):
+    '''Crea y actualiza Usuarios'''
+    serializer_class = serializers.UsuarioSerializer
+    queryset = models.User.objects.all()
+    
