@@ -6,22 +6,25 @@ from django.contrib.auth.models import BaseUserManager
 
 
 class UserManager(BaseUserManager):
-    def create_user(self,documento,nombres,password=None):
+    def create_user(self,tipo_documento,documento,nombres,apellidos,hobbie,password=None):
         if not documento:
             raise ValueError("Debes tener un Numero de documento")
         
         
-        user=self.model(documento=documento,nombres=nombres)
+        user=self.model(tipo_documento=tipo_documento,documento=documento,nombres=nombres,apellidos=apellidos,hobbie=hobbie)
         user.set_password(password)
         user.save(using=self._db)
         return user
-
-    def create_superuser(self,documento,nombres,password):
         
-        user=self.create_user(documento,nombres,password)
+
+    def create_superuser(self,tipo_documento,documento,nombres,apellidos,hobbie,password):
+        
+        user=self.create_user(tipo_documento,documento,nombres,apellidos,hobbie,password)
         user.is_superuser=True
         user.is_staff=True
         user.save(using=self._db)
+        class Meta:
+         db_table = 'usuarios_table'
         
         return user
 
@@ -34,11 +37,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     hobbie =models.CharField(max_length=255)
     is_active=models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    class Meta:
+         db_table = 'personas_table'
     
     objects = UserManager()
     
     USERNAME_FIELD = 'documento'
-    REQUIRED_FIELDS = ['nombres']
+    REQUIRED_FIELDS = ['tipo_documento','nombres','apellidos','hobbie']
     
     def get_full_name(self):
        return self.nombres 
